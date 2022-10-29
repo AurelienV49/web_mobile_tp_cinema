@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Aurélien VAILLANT" />
+    <meta name="ecole" content="Ynov Campus Nantes" />
+    <meta name="keyword" content="cours html, balise meta, formulaires, listes, tableaux, cadres" />
+    <meta name="category" content="TP cinéma, cours HTML CSS Javascript" />
+    <meta name="langue" content="fr" />
+    <meta name="description" content="Une page pour teser le HTML/CSS3 du cours" />
+    <meta name="copyright" content="mon copyriht" />
+    <meta name="generator" content="VS-Code" />
+    <meta name="date" content="Feb, 14 Oct 2022 17:00:00" />
+    <link rel="stylesheet" href="home_view_styles.css" type="text/css" />
+    <title>What Watch</title>
+</head>
+
+<body>
+    <div id="main">
+        <div id="header">
+            <p id="title">What Watch</p>
+        </div>
+        <div id="body">
+            <div id="search-area">
+                <form action="movie-list" method="POST">
+                    <div>
+                        <input type="text" id="input-search" name="movie_search" placeholder="Entrez le nom d'un film" required />
+                        <div id="button">Rechercher</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="id-films"></div>
+        <div id="footer">
+            <img id="logo" src="images/logo.png" alt="Image HTML5" />
+        </div>
+    </div>
+
+    <script>
+        var liste_des_films = [];
+
+        const searcheButton = document.getElementById("button");
+        searcheButton.addEventListener("click", function() {
+            const film_recherche = document.getElementById("input-search").value;
+
+            const API_KEY = "70046ddc646dc61bb49877aefaa7b966";
+
+            fetch(
+                    `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${film_recherche}`, {
+                        method: "GET",
+                    }
+                )
+                .then(async function(response) {
+                    var ret = await response.json();
+                    return ret["results"];
+                })
+                .then((data) => {
+                    liste_des_films = data;
+
+                    // Suppression des films affichés s'il y en a
+                    var parent = document.getElementById("main");
+                    var enfantBody = document.getElementById("body");
+                    var enfantIdFilm = document.getElementById("id-films");
+                    parent.removeChild(enfantIdFilm);
+
+                    // On recréer la div avec son id
+                    let newDiv = document.createElement("div");
+                    newDiv.setAttribute("id", `id-films`);
+
+                    let container = enfantBody.after(newDiv);
+
+                    liste_des_films.forEach(function(film, index) {
+                        // Ajouts des div avec le récap des films
+                        var aSpan = document.createElement("span");
+                        aSpan.setAttribute("id", `id-fim-${index + 1}`);
+                        aSpan.setAttribute("class", `mesFilms`);
+
+                        aSpan.style.display = "inline-block";
+                        aSpan.style.width = "276px";
+                        aSpan.style.height = "200px";
+                        aSpan.style.margin = "8px";
+                        aSpan.style.padding = "2px";
+                        aSpan.style.border = "2px solid grey";
+                        aSpan.style.borderRadius = "10px";
+
+                        var aSpanHeader = document.createElement("div");
+                        aSpanHeader.style.color = "white";
+                        aSpanHeader.style.width = "276px";
+                        aSpanHeader.style.height = "50px";
+                        aSpanHeader.style.display = "inline-block";
+                        aSpanHeader.style.borderRadius = "10px";
+
+                        aSpanHeader.style.textAlign = "center";
+                        aSpanHeader.setAttribute("id", `movie-title`);
+                        aSpanHeader.textContent = film["original_title"];
+
+                        var font_title = document.getElementById("movie-title");
+
+                        var aPictureBodyLeft = document.createElement("img");
+                        if (film["poster_path"] != null) {
+                            aPictureBodyLeft.src =
+                                "https://image.tmdb.org/t/p/w500/" + film["poster_path"];
+                        } else {
+                            aPictureBodyLeft.src = "images/default_picture.png";
+                        }
+
+                        aPictureBodyLeft.style.width = "138px";
+                        aPictureBodyLeft.style.height = "150px";
+
+                        var aSpanBodyLeft = document.createElement("span");
+                        aSpanBodyLeft.style.width = "138px";
+                        aSpanBodyLeft.style.height = "150px";
+                        aSpanBodyLeft.style.display = "inline-block";
+                        aSpanBodyLeft.style.borderRadius = "10px";
+                        aSpanBodyLeft.appendChild(aPictureBodyLeft);
+
+                        var aSpanBodyRight = document.createElement("span");
+                        aSpanBodyRight.style.color = "white";
+                        aSpanBodyRight.style.width = "138px";
+                        aSpanBodyRight.style.height = "150px";
+                        aSpanBodyRight.style.display = "inline-block";
+                        aSpanBodyRight.style.borderRadius = "10px";
+                        aSpanBodyRight.style.overflow = "hidden";
+                        aSpanBodyRight.setAttribute("id", `movie-description`);
+                        aSpanBodyRight.textContent = film["overview"];
+
+                        aSpan.appendChild(aSpanHeader);
+                        aSpan.appendChild(aSpanBodyLeft);
+                        aSpan.appendChild(aSpanBodyRight);
+
+                        document.getElementById("id-films").appendChild(aSpan);
+                    });
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+        });
+
+        function delElem(parent, child) {
+            var obj = document.getElementById(parent);
+            var old = document.getElementById(child);
+
+            obj.removeChild(old);
+        }
+    </script>
+</body>
+
+</html>

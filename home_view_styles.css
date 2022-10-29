@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+body {
+    background-color: black;
+}
+
+#main {
+    border-radius: 20px;
+    width: 900px;
+    height: auto;
+    margin: 50px auto;
+    padding: 30px 20px 10px 40px;
+    background-color: black;
+}
+
+#main #header {
+    display: flex;
+    height: 200;
+}
+
+#main #header #title {
+    font-weight: 700;
+    font-size: 50px;
+    color: white;
+    font-family: 'Varela Round', Arial, Georgia, sans-serif;
+    margin: auto;
+    text-align: center;
+}
+
+#main #body {
+    display: flex;
+    height: 200;
+}
+
+#main #body #search-area {
+    margin: auto;
+    text-align: center;
+}
+
+#main #body #search-area #input-search {
+    padding-bottom: 5px;
+    border: none;
+    border-top-right-radius: 20px 20px;
+    border-top-left-radius: 20px 20px;
+    text-align: center;
+    height: 35px;
+    width: 250px;
+}
+
+#main #body #search-area #button {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-bottom-right-radius: 20px 20px;
+    border-bottom-left-radius: 20px 20px;
+    background-color: grey;
+    color: black;
+    text-align: center;
+    vertical-align: bottom;
+    height: 30px;
+}
+
+#main #id-films {
+    width: 900px;
+    height: auto;
+    text-align: center;
+}
+
+#main #footer {
+    display: flex;
+    height: 200;
+}
+
+#main #footer #logo {
+    margin: auto;
+    text-align: center;
+}
