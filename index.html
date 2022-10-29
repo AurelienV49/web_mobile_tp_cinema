@@ -72,6 +72,8 @@
 
                     liste_des_films.forEach(function(film, index) {
                         // Ajouts des div avec le récap des films
+
+                        // CARD
                         var aSpan = document.createElement("span");
                         aSpan.setAttribute("id", `id-fim-${index + 1}`);
                         aSpan.setAttribute("class", `mesFilms`);
@@ -84,19 +86,28 @@
                         aSpan.style.border = "2px solid grey";
                         aSpan.style.borderRadius = "10px";
 
+                        // HEADER - MOVIE TITLE
                         var aSpanHeader = document.createElement("div");
                         aSpanHeader.style.color = "white";
                         aSpanHeader.style.width = "276px";
                         aSpanHeader.style.height = "50px";
                         aSpanHeader.style.display = "inline-block";
                         aSpanHeader.style.borderRadius = "10px";
-
-                        aSpanHeader.style.textAlign = "center";
+                        aSpanHeader.style.display = "flex";
                         aSpanHeader.setAttribute("id", `movie-title`);
-                        aSpanHeader.textContent = film["original_title"];
+
+                        var aSpanHeaderEnfant = document.createElement("div");
+                        aSpanHeaderEnfant.style.margin = "auto";
+                        aSpanHeaderEnfant.style.fontFamily = "Varela Round";
+                        aSpanHeaderEnfant.style.fontSize = "18px";
+                        aSpanHeaderEnfant.setAttribute("id", `movie-title-enfant`);
+                        aSpanHeaderEnfant.textContent = film["original_title"];
 
                         var font_title = document.getElementById("movie-title");
 
+                        aSpanHeader.appendChild(aSpanHeaderEnfant);
+
+                        // BODY LEFT - MOVIE PICTURE
                         var aPictureBodyLeft = document.createElement("img");
                         if (film["poster_path"] != null) {
                             aPictureBodyLeft.src =
@@ -115,20 +126,23 @@
                         aSpanBodyLeft.style.borderRadius = "10px";
                         aSpanBodyLeft.appendChild(aPictureBodyLeft);
 
+                        // BODY RIGHT - DESCRIPTION
                         var aSpanBodyRight = document.createElement("span");
                         aSpanBodyRight.style.color = "white";
                         aSpanBodyRight.style.width = "138px";
                         aSpanBodyRight.style.height = "150px";
                         aSpanBodyRight.style.display = "inline-block";
                         aSpanBodyRight.style.borderRadius = "10px";
-                        aSpanBodyRight.style.overflow = "hidden";
+                        aSpanBodyRight.style.overflow = "auto";
                         aSpanBodyRight.setAttribute("id", `movie-description`);
                         aSpanBodyRight.textContent = film["overview"];
 
+                        // ADD SUB-CARDS to the CARD
                         aSpan.appendChild(aSpanHeader);
                         aSpan.appendChild(aSpanBodyLeft);
                         aSpan.appendChild(aSpanBodyRight);
 
+                        // ADD THE COMPLET CARD
                         document.getElementById("id-films").appendChild(aSpan);
                     });
                 })
